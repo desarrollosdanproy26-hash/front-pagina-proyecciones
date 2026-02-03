@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 //const API_URL = 'http://localhost:5000/api';
-const API_URL='http://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me/api'
-
+//const API_URL='http://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me/api'
+const API_URL='http://147.93.190.116:5000/api'
 const apiClient = axios.create({
   baseURL: API_URL,
   timeout: 30000,
