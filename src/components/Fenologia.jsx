@@ -37,7 +37,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 //const API_URL = 'http://localhost:5000/api';
-const API_URL='http://147.93.190.116:500/api'
+const API_URL = 'http://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me/api';
 
 function Fenologia() {
   // Estados para selectores en cascada
