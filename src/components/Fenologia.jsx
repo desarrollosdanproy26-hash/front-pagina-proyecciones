@@ -36,7 +36,8 @@ import axios from 'axios';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-const API_URL = 'http://localhost:5000/api';
+//const API_URL = 'http://localhost:5000/api';
+const API_URL='http://147.93.190.116:500/api'
 
 function Fenologia() {
   // Estados para selectores en cascada
