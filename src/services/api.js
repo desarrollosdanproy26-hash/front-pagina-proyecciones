@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Cambia esta línea:
-const API_URL = 'http://147.93.190.116:5000/api'; 
+const API_URL = 'https://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me';
 
 const apiClient = axios.create({
   baseURL: API_URL,
