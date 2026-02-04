@@ -2347,7 +2347,7 @@ function Fenologia() {
         }}
       >
         <Typography variant="body2" sx={{ color: 'white', fontWeight: 500 }}>
-          © 2026 Danper Trujillo S.A.C. | Sistema de Proyecciones Agrícolas
+          © 2026 Sistema de Proyecciones Agrícolas Pimiento
         </Typography>
       </Box>
     </Box>
