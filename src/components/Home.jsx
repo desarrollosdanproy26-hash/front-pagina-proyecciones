@@ -191,7 +191,7 @@ function Home({ onModuleSelect }) {
               textShadow: '0px 2px 4px rgba(0,0,0,0.5)'
             }}
           >
-            © 2026 Danper - Sistema de Proyecciones Agrícolas
+            © Sistema de Proyecciones Agrícolas Pimiento
           </Typography>
         </Box>
       </Container>
