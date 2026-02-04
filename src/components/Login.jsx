@@ -247,7 +247,7 @@ function Login({ onLoginSuccess }) {
         {/* Footer */}
         <Box sx={{ textAlign: 'center', mt: 3 }}>
           <Typography variant="caption" sx={{ color: '#9E9E9E' }}>
-            © 2026 Danper - Todos los derechos reservados
+            © 2026 Proyecciones Pimiento - Todos los derechos reservados
           </Typography>
         </Box>
       </Card>
