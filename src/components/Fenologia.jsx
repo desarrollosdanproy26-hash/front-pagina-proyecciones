@@ -336,25 +336,25 @@ function Fenologia() {
 
   // Cargar datos a nivel LOTE
   const cargarDatosNivelLote = async (idLote) => {
-  try {
-    setLoading(true);
-    const response = await axios.get(
-      `${API_URL}/fenologia/lotes/${idLote}/nivel-lote`,
-      getAuthHeaders()
-    );
-    setDatosNivelLote(response.data);
-    
-    // Verificar si tiene Validacion=2
-    const tieneValidacion2 = response.data.tieneValidacion2 || false;
-    setLoteEsEditable(tieneValidacion2);
-    
-  } catch (err) {
-    console.error('Error al cargar datos nivel lote:', err);
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${API_URL}/fenologia/lotes/${idLote}/nivel-lote`,
+        getAuthHeaders()
+      );
+      setDatosNivelLote(response.data);
+
+      // Verificar si tiene Validacion=2
+      const esEditable = response.data.esEditable || false;
+      setLoteEsEditable(esEditable);
+
+    } catch (err) {
+      console.error('Error al cargar datos nivel lote:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const distribuirPromedioEntreMuestras = (muestras, campo, nuevoPromedio, valorMin, valorMax) => {
     const n = muestras.length;
@@ -514,28 +514,28 @@ function Fenologia() {
   };
 
   const camposEditables = [
-  { key: 'AlturaPlanta', label: 'Alt. Planta', tipo: 'numero', width: 90 },      // AltPlant
-  { key: 'Botones', label: 'Botones', tipo: 'numero', width: 80 },               // N_bot
-  { key: 'Flores', label: 'Flores', tipo: 'numero', width: 80 },                 // N_Flor
-  { key: 'Cuajas', label: 'Cuajas', tipo: 'numero', width: 80 },                 // N_Cuajas
-  { key: 'PreCuajas', label: 'Pre Cuajas', tipo: 'numero', width: 90 },          // N_PC
-  { key: 'CuajaDeforme', label: 'Cuaja Deforme', tipo: 'numero', width: 110 },   // N_CDeforP
-  { key: 'CuajasDañoAlternaria', label: 'Cuajas Daño Alt.', tipo: 'numero', width: 130 }, // N_CDA
-  { key: 'CuajaDañoProdi', label: 'Cuaja Daño Prodi', tipo: 'numero', width: 130 },       // N_CDP
+    { key: 'AlturaPlanta', label: 'Alt. Planta', tipo: 'numero', width: 90 },      // AltPlant
+    { key: 'Botones', label: 'Botones', tipo: 'numero', width: 80 },               // N_bot
+    { key: 'Flores', label: 'Flores', tipo: 'numero', width: 80 },                 // N_Flor
+    { key: 'Cuajas', label: 'Cuajas', tipo: 'numero', width: 80 },                 // N_Cuajas
+    { key: 'PreCuajas', label: 'Pre Cuajas', tipo: 'numero', width: 90 },          // N_PC
+    { key: 'CuajaDeforme', label: 'Cuaja Deforme', tipo: 'numero', width: 110 },   // N_CDeforP
+    { key: 'CuajasDañoAlternaria', label: 'Cuajas Daño Alt.', tipo: 'numero', width: 130 }, // N_CDA
+    { key: 'CuajaDañoProdi', label: 'Cuaja Daño Prodi', tipo: 'numero', width: 130 },       // N_CDP
 
-  { key: 'FrutoNivel1', label: 'Fruto N1', tipo: 'numero', width: 80 },          // N_FrtN1
-  { key: 'FrutosQuemados', label: 'Frutos Quemados', tipo: 'numero', width: 130 }, // N_FrtfQ
-  { key: 'FrutosDeformes', label: 'Frutos Deformes', tipo: 'numero', width: 130 }, // N_FrtFMD
-  { key: 'DeformeLeve', label: 'Deforme Leve', tipo: 'numero', width: 110 },       // N_FrtDeforL
-  { key: 'TipoAji', label: 'Tipo Ají', tipo: 'numero', width: 90 },               // N_FrtTAPR
-  { key: 'FormaAji', label: 'Forma Ají', tipo: 'numero', width: 90 },             // N_FrtFA
-  { key: 'DañoAlternaria', label: 'Daño Alternaria', tipo: 'numero', width: 130 },// N_FrtDA
-  { key: 'DañoProdiplosis', label: 'Daño Prodiplosis', tipo: 'numero', width: 140 }, // N_FrtDP
-  { key: 'FrutosDescompuestos', label: 'Frutos Descomp.', tipo: 'numero', width: 140 }, // N_FrtDescomp
-  { key: 'DiametroMenor', label: 'Diámetro Menor', tipo: 'numero', width: 120 },  // N_FrtDM
-  { key: 'DañoRoedores', label: 'Daño Roedores', tipo: 'numero', width: 120 },    // N_FrtDPR
-  { key: 'DañoPajaros', label: 'Daño Pájaros', tipo: 'numero', width: 120 }       // N_FrtDPP
-];
+    { key: 'FrutoNivel1', label: 'Fruto N1', tipo: 'numero', width: 80 },          // N_FrtN1
+    { key: 'FrutosQuemados', label: 'Frutos Quemados', tipo: 'numero', width: 130 }, // N_FrtfQ
+    { key: 'FrutosDeformes', label: 'Frutos Deformes', tipo: 'numero', width: 130 }, // N_FrtFMD
+    { key: 'DeformeLeve', label: 'Deforme Leve', tipo: 'numero', width: 110 },       // N_FrtDeforL
+    { key: 'TipoAji', label: 'Tipo Ají', tipo: 'numero', width: 90 },               // N_FrtTAPR
+    { key: 'FormaAji', label: 'Forma Ají', tipo: 'numero', width: 90 },             // N_FrtFA
+    { key: 'DañoAlternaria', label: 'Daño Alternaria', tipo: 'numero', width: 130 },// N_FrtDA
+    { key: 'DañoProdiplosis', label: 'Daño Prodiplosis', tipo: 'numero', width: 140 }, // N_FrtDP
+    { key: 'FrutosDescompuestos', label: 'Frutos Descomp.', tipo: 'numero', width: 140 }, // N_FrtDescomp
+    { key: 'DiametroMenor', label: 'Diámetro Menor', tipo: 'numero', width: 120 },  // N_FrtDM
+    { key: 'DañoRoedores', label: 'Daño Roedores', tipo: 'numero', width: 120 },    // N_FrtDPR
+    { key: 'DañoPajaros', label: 'Daño Pájaros', tipo: 'numero', width: 120 }       // N_FrtDPP
+  ];
 
 
   const camposInfo = [
@@ -732,160 +732,160 @@ function Fenologia() {
 
     return (
       <Table stickyHeader size="small" sx={{ tableLayout: 'fixed', width: 'max-content' }}>
-          <TableHead>
-            <TableRow>
-              {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                <TableCell
-                  key={campo.key}
-                  sx={{
-                    fontWeight: 700,
-                    bgcolor: color,
-                    color: 'white',
-                    width: campo.width,
-                    minWidth: campo.width,
-                    textAlign: 'center',
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 3
-                  }}
-                >
-                  {campo.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* Fila de PROMEDIOS */}
-            <TableRow sx={{
-              bgcolor: 'white',
+        <TableHead>
+          <TableRow>
+            {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
+              <TableCell
+                key={campo.key}
+                sx={{
+                  fontWeight: 700,
+                  bgcolor: color,
+                  color: 'white',
+                  width: campo.width,
+                  minWidth: campo.width,
+                  textAlign: 'center',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 3
+                }}
+              >
+                {campo.label}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* Fila de PROMEDIOS */}
+          <TableRow sx={{
+            bgcolor: 'white',
+            height: '48px',
+            '& td': {
               height: '48px',
-              '& td': {
-                height: '48px',
-                maxHeight: '48px',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
-              }
-            }}>
+              maxHeight: '48px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }
+          }}>
+            {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
+              <TableCell
+                key={campo.key}
+                sx={{
+                  width: campo.width,
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  color: color,
+                  padding: '4px'
+                }}
+              >
+                {editable && campo.tipo === 'numero' && modoEdicionLote ? (
+                  <TextField
+                    type="number"
+                    size="small"
+                    value={promediosEditadosLote[campo.key] ?? promedios[campo.key] ?? '0.00'}
+                    onChange={(e) => setPromediosEditadosLote({
+                      ...promediosEditadosLote,
+                      [campo.key]: e.target.value
+                    })}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        fontSize: '0.95rem',
+                        padding: '4px',
+                        bgcolor: '#FFF3CD',
+                        textAlign: 'center',
+                        fontWeight: 600
+                      }
+                    }}
+                    inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1 }}
+                  />
+                ) : (
+                  campo.tipo === 'numero' ? (promedios[campo.key] ?? '0.00') : '-'
+                )}
+              </TableCell>
+            ))}
+          </TableRow>
+
+          {/* Fila de MÍNIMO (solo si está editando) */}
+          {editable && modoEdicionLote && (
+            <TableRow sx={{ bgcolor: '#FFEBEE', height: '48px' }}>
               {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
                 <TableCell
                   key={campo.key}
                   sx={{
                     width: campo.width,
                     textAlign: 'center',
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                    color: color,
                     padding: '4px'
                   }}
                 >
-                  {editable && campo.tipo === 'numero' && modoEdicionLote ? (
+                  {campo.tipo === 'numero' ? (
                     <TextField
                       type="number"
                       size="small"
-                      value={promediosEditadosLote[campo.key] ?? promedios[campo.key] ?? '0.00'}
-                      onChange={(e) => setPromediosEditadosLote({
-                        ...promediosEditadosLote,
+                      placeholder="Min"
+                      value={valoresMinLote[campo.key] ?? ''}
+                      onChange={(e) => setValoresMinLote({
+                        ...valoresMinLote,
                         [campo.key]: e.target.value
                       })}
                       sx={{
                         width: '100%',
                         '& input': {
-                          fontSize: '0.95rem',
+                          fontSize: '0.875rem',
                           padding: '4px',
-                          bgcolor: '#FFF3CD',
                           textAlign: 'center',
-                          fontWeight: 600
+                          bgcolor: 'white'
                         }
                       }}
-                      inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1 }}
+                      inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1, min: 0 }}
                     />
-                  ) : (
-                    campo.tipo === 'numero' ? (promedios[campo.key] ?? '0.00') : '-'
-                  )}
+                  ) : '-'}
                 </TableCell>
               ))}
             </TableRow>
+          )}
 
-            {/* Fila de MÍNIMO (solo si está editando) */}
-            {editable && modoEdicionLote && (
-              <TableRow sx={{ bgcolor: '#FFEBEE', height: '48px' }}>
-                {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                  <TableCell
-                    key={campo.key}
-                    sx={{
-                      width: campo.width,
-                      textAlign: 'center',
-                      padding: '4px'
-                    }}
-                  >
-                    {campo.tipo === 'numero' ? (
-                      <TextField
-                        type="number"
-                        size="small"
-                        placeholder="Min"
-                        value={valoresMinLote[campo.key] ?? ''}
-                        onChange={(e) => setValoresMinLote({
-                          ...valoresMinLote,
-                          [campo.key]: e.target.value
-                        })}
-                        sx={{
-                          width: '100%',
-                          '& input': {
-                            fontSize: '0.875rem',
-                            padding: '4px',
-                            textAlign: 'center',
-                            bgcolor: 'white'
-                          }
-                        }}
-                        inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1, min: 0 }}
-                      />
-                    ) : '-'}
-                  </TableCell>
-                ))}
-              </TableRow>
-            )}
-
-            {/* Fila de MÁXIMO (solo si está editando) */}
-            {editable && modoEdicionLote && (
-              <TableRow sx={{ bgcolor: '#E8F5E9', height: '48px' }}>
-                {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                  <TableCell
-                    key={campo.key}
-                    sx={{
-                      width: campo.width,
-                      textAlign: 'center',
-                      padding: '4px'
-                    }}
-                  >
-                    {campo.tipo === 'numero' ? (
-                      <TextField
-                        type="number"
-                        size="small"
-                        placeholder="Max"
-                        value={valoresMaxLote[campo.key] ?? ''}
-                        onChange={(e) => setValoresMaxLote({
-                          ...valoresMaxLote,
-                          [campo.key]: e.target.value
-                        })}
-                        sx={{
-                          width: '100%',
-                          '& input': {
-                            fontSize: '0.875rem',
-                            padding: '4px',
-                            textAlign: 'center',
-                            bgcolor: 'white'
-                          }
-                        }}
-                        inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1, min: 0 }}
-                      />
-                    ) : '-'}
-                  </TableCell>
-                ))}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+          {/* Fila de MÁXIMO (solo si está editando) */}
+          {editable && modoEdicionLote && (
+            <TableRow sx={{ bgcolor: '#E8F5E9', height: '48px' }}>
+              {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
+                <TableCell
+                  key={campo.key}
+                  sx={{
+                    width: campo.width,
+                    textAlign: 'center',
+                    padding: '4px'
+                  }}
+                >
+                  {campo.tipo === 'numero' ? (
+                    <TextField
+                      type="number"
+                      size="small"
+                      placeholder="Max"
+                      value={valoresMaxLote[campo.key] ?? ''}
+                      onChange={(e) => setValoresMaxLote({
+                        ...valoresMaxLote,
+                        [campo.key]: e.target.value
+                      })}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          fontSize: '0.875rem',
+                          padding: '4px',
+                          textAlign: 'center',
+                          bgcolor: 'white'
+                        }
+                      }}
+                      inputProps={{ step: campo.key === 'AlturaPlanta' ? 0.1 : 1, min: 0 }}
+                    />
+                  ) : '-'}
+                </TableCell>
+              ))}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     );
   };
   // Tabla de promedios por LOTE + promedio general del turno
@@ -898,142 +898,142 @@ function Fenologia() {
 
     return (
       <Table stickyHeader size="small" sx={{ tableLayout: 'fixed', width: 'max-content' }}>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ 
-                fontWeight: 700, 
-                bgcolor: color,
-                color: 'white',
-                width: 100,
-                minWidth: 100,
-                position: 'sticky',
-                top: 0,
-                zIndex: 3,
-                textAlign: 'center'
-              }}>
-                Lote
-              </TableCell>
-
-              <TableCell sx={{ 
-                fontWeight: 700, 
-                bgcolor: color,
-                color: 'white',
-                width: 110,
-                minWidth: 110,
-                position: 'sticky',
-                top: 0,
-                zIndex: 3,
-                textAlign: 'center'
-              }}>
-                Fecha
-              </TableCell>
-
-              {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                <TableCell 
-                  key={campo.key} 
-                  sx={{ 
-                    fontWeight: 700, 
-                    bgcolor: color,
-                    color: 'white',
-                    width: campo.width,
-                    minWidth: campo.width,
-                    textAlign: 'center',
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 3
-                  }}
-                >
-                  {campo.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* Filas de cada lote */}
-            {semanaData.lotes.map((lote, idx) => (
-              <TableRow key={lote.idLote} sx={{ 
-                bgcolor: idx % 2 === 0 ? 'white' : 'rgba(0,0,0,0.02)',
-                height: '48px',
-                '&:hover': { bgcolor: 'rgba(205, 10, 10, 0.05)' }
-              }}>
-                <TableCell sx={{ 
-                  width: 100,
-                  textAlign: 'center',
-                  fontWeight: 600,
-                  fontSize: '0.9rem'
-                }}>
-                  {lote.Lote}
-                </TableCell>
-
-                <TableCell sx={{ 
-                  width: 110,
-                  textAlign: 'center',
-                  fontSize: '0.9rem'
-                }}>
-                  {lote.fecha ? new Date(lote.fecha + 'T00:00:00').toLocaleDateString('es-PE') : '-'}
-                </TableCell>
-
-                {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                  <TableCell 
-                    key={campo.key} 
-                    sx={{ 
-                      width: campo.width,
-                      textAlign: 'center',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    {campo.tipo === 'numero' ? (lote.promedios[campo.key] ?? '0.00') : '-'}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-            
-            {/* Fila de PROMEDIO GENERAL DEL TURNO (sticky) */}
-            <TableRow sx={{ 
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{
+              fontWeight: 700,
               bgcolor: color,
+              color: 'white',
+              width: 100,
+              minWidth: 100,
               position: 'sticky',
-              bottom: 0,
-              zIndex: 10,
-              boxShadow: '0px -2px 8px rgba(0,0,0,0.15)'
+              top: 0,
+              zIndex: 3,
+              textAlign: 'center'
             }}>
-              <TableCell sx={{ 
-                fontWeight: 700, 
-                color: 'white', 
-                fontSize: '1rem',
-                textAlign: 'center'
+              Lote
+            </TableCell>
+
+            <TableCell sx={{
+              fontWeight: 700,
+              bgcolor: color,
+              color: 'white',
+              width: 110,
+              minWidth: 110,
+              position: 'sticky',
+              top: 0,
+              zIndex: 3,
+              textAlign: 'center'
+            }}>
+              Fecha
+            </TableCell>
+
+            {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
+              <TableCell
+                key={campo.key}
+                sx={{
+                  fontWeight: 700,
+                  bgcolor: color,
+                  color: 'white',
+                  width: campo.width,
+                  minWidth: campo.width,
+                  textAlign: 'center',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 3
+                }}
+              >
+                {campo.label}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* Filas de cada lote */}
+          {semanaData.lotes.map((lote, idx) => (
+            <TableRow key={lote.idLote} sx={{
+              bgcolor: idx % 2 === 0 ? 'white' : 'rgba(0,0,0,0.02)',
+              height: '48px',
+              '&:hover': { bgcolor: 'rgba(205, 10, 10, 0.05)' }
+            }}>
+              <TableCell sx={{
+                width: 100,
+                textAlign: 'center',
+                fontWeight: 600,
+                fontSize: '0.9rem'
               }}>
-                TURNO
+                {lote.Lote}
               </TableCell>
 
-              <TableCell sx={{ 
-                fontWeight: 700, 
-                color: 'white', 
-                fontSize: '1rem',
-                textAlign: 'center'
+              <TableCell sx={{
+                width: 110,
+                textAlign: 'center',
+                fontSize: '0.9rem'
               }}>
-                -
+                {lote.fecha ? new Date(lote.fecha + 'T00:00:00').toLocaleDateString('es-PE') : '-'}
               </TableCell>
-              
+
               {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
-                <TableCell 
+                <TableCell
                   key={campo.key}
-                  sx={{ 
-                    fontWeight: 700, 
-                    color: 'white',
-                    fontSize: '0.95rem',
-                    textAlign: 'center'
+                  sx={{
+                    width: campo.width,
+                    textAlign: 'center',
+                    fontSize: '0.9rem'
                   }}
                 >
-                  {campo.tipo === 'numero' ? (semanaData.promedioGeneral[campo.key] ?? '0.00') : '-'}
+                  {campo.tipo === 'numero' ? (lote.promedios[campo.key] ?? '0.00') : '-'}
                 </TableCell>
               ))}
             </TableRow>
-          </TableBody>
-        </Table>
+          ))}
+
+          {/* Fila de PROMEDIO GENERAL DEL TURNO (sticky) */}
+          <TableRow sx={{
+            bgcolor: color,
+            position: 'sticky',
+            bottom: 0,
+            zIndex: 10,
+            boxShadow: '0px -2px 8px rgba(0,0,0,0.15)'
+          }}>
+            <TableCell sx={{
+              fontWeight: 700,
+              color: 'white',
+              fontSize: '1rem',
+              textAlign: 'center'
+            }}>
+              TURNO
+            </TableCell>
+
+            <TableCell sx={{
+              fontWeight: 700,
+              color: 'white',
+              fontSize: '1rem',
+              textAlign: 'center'
+            }}>
+              -
+            </TableCell>
+
+            {camposEditables.filter(c => c.key !== 'Muestra').map(campo => (
+              <TableCell
+                key={campo.key}
+                sx={{
+                  fontWeight: 700,
+                  color: 'white',
+                  fontSize: '0.95rem',
+                  textAlign: 'center'
+                }}
+              >
+                {campo.tipo === 'numero' ? (semanaData.promedioGeneral[campo.key] ?? '0.00') : '-'}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
     );
   };
 
-  
+
   const renderTablaModal = (datos, promedios, editable = false) => {
     if (!datos || datos.length === 0) {
       return <Alert severity="info">No hay datos disponibles</Alert>;
@@ -1532,25 +1532,25 @@ function Fenologia() {
                   onClick={() => handleLoteClick(lote)}
                   color={selectedLote?.idLote === lote.idLote ? "primary" : "default"}
                   variant={selectedLote?.idLote === lote.idLote ? "filled" : "outlined"}
-                  sx={{ 
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        height: '36px',
-                        fontWeight: 500,
-                        justifyContent: 'center',
-                        bgcolor: selectedLote?.idLote === lote.idLote 
-                          ? (lote.Color === 'rojo' ? '#CD0A0A' : '#4CAF50')
-                          : (lote.Color === 'rojo' ? '#FFCDD2' : '#C8E6C9'),
-                        color: selectedLote?.idLote === lote.idLote ? 'white' : '#424242',
-                        border: 'none',
-                        '&:hover': {
-                          bgcolor: lote.Color === 'rojo' ? '#B71C1C' : '#45A049',
-                          color: 'white',
-                          transform: 'scale(1.05)',
-                          boxShadow: '0px 4px 12px rgba(0,0,0,0.2)',
-                          transition: 'all 0.3s ease'
-                        }
-                      }}
+                  sx={{
+                    cursor: 'pointer',
+                    fontSize: '0.85rem',
+                    height: '36px',
+                    fontWeight: 500,
+                    justifyContent: 'center',
+                    bgcolor: selectedLote?.idLote === lote.idLote
+                      ? (lote.Color === 'rojo' ? '#CD0A0A' : '#4CAF50')
+                      : (lote.Color === 'rojo' ? '#FFCDD2' : '#C8E6C9'),
+                    color: selectedLote?.idLote === lote.idLote ? 'white' : '#424242',
+                    border: 'none',
+                    '&:hover': {
+                      bgcolor: lote.Color === 'rojo' ? '#B71C1C' : '#45A049',
+                      color: 'white',
+                      transform: 'scale(1.05)',
+                      boxShadow: '0px 4px 12px rgba(0,0,0,0.2)',
+                      transition: 'all 0.3s ease'
+                    }
+                  }}
                 />
               ))}
             </Box>
@@ -1988,145 +1988,145 @@ function Fenologia() {
           )}
 
           {/* MODAL TIPO TURNO - SOLO PROMEDIOS */}
-{modalTipo === 'turno' && datosNivelTurno && (
-  <Box sx={{
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    overflow: 'hidden'
-  }}>
-    <Box sx={{
-      overflowX: 'auto',
-      overflowY: 'hidden',
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      '&::-webkit-scrollbar': {
-        height: '14px'
-      },
-      '&::-webkit-scrollbar-track': {
-        background: '#E0E0E0',
-        borderRadius: '7px'
-      },
-      '&::-webkit-scrollbar-thumb': {
-        background: '#CD0A0A',
-        borderRadius: '7px',
-        '&:hover': {
-          background: '#B71C1C'
-        }
-      }
-    }}>
-      <Box sx={{ 
-        p: 3, 
-        minWidth: 'max-content', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: 1, 
-        height: '100%',
-        overflow: 'hidden'
-      }}>
-
-        {/* Lotes del Turno */}
-        <Box sx={{ mb: 1 }}>
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: 600, color: '#CD0A0A' }}>
-            Lotes del Turno {turnoNombre}
-          </Typography>
-          <Box sx={{ 
-            display: 'flex', 
-            gap: 1, 
-            flexWrap: 'wrap',
-            justifyContent: 'center'
-          }}>
-            {lotes.map(lote => (
-              <Chip
-                key={lote.idLote}
-                label={lote.Lote}
-                onClick={async () => {
-                  setSelectedLote(lote);
-                  await cargarDatosNivelLote(lote.idLote);
-                  setModalTipo('lote');
-                }}
-                sx={{ 
-                  cursor: 'pointer',
-                  fontSize: '0.85rem',
-                  height: '36px',
-                  fontWeight: 500,
-                  bgcolor: lote.Color === 'rojo' ? '#FFCDD2' : '#C8E6C9',
-                  color: '#424242',
-                  border: 'none',
+          {modalTipo === 'turno' && datosNivelTurno && (
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              overflow: 'hidden'
+            }}>
+              <Box sx={{
+                overflowX: 'auto',
+                overflowY: 'hidden',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                '&::-webkit-scrollbar': {
+                  height: '14px'
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#E0E0E0',
+                  borderRadius: '7px'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#CD0A0A',
+                  borderRadius: '7px',
                   '&:hover': {
-                    bgcolor: lote.Color === 'rojo' ? '#B71C1C' : '#45A049',
-                    color: 'white',
-                    transform: 'scale(1.05)',
-                    transition: 'all 0.3s ease'
+                    background: '#B71C1C'
                   }
-                }}
-              />
-            ))}
-          </Box>
-        </Box>
+                }
+              }}>
+                <Box sx={{
+                  p: 3,
+                  minWidth: 'max-content',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  height: '100%',
+                  overflow: 'hidden'
+                }}>
 
-        {/* Penúltima Semana */}
-        <Paper elevation={3} sx={{ 
-          bgcolor: '#FFE5E5', 
-          overflow: 'hidden',
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: 0
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2, pb: 1 }}>
-            <LockIcon sx={{ color: '#CD0A0A' }} />
-            <Chip label={`Semana ${datosNivelTurno.penultimaSemana.semana}`} sx={{ bgcolor: '#CD0A0A', color: 'white', fontWeight: 600 }} />
-            <Typography variant="body2" sx={{ color: '#666', fontSize: '1rem', fontWeight: 'bold' }}>
-              Promedio de todos los lotes del turno
-            </Typography>
-          </Box>
-          <Box sx={{ 
-            flex: 1, 
-            overflowY: 'auto', 
-            overflowX: 'hidden', 
-            position: 'relative',
-            '&::-webkit-scrollbar': { width: '8px' },
-            '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
-            '&::-webkit-scrollbar-thumb': { background: '#CD0A0A', borderRadius: '4px' }
-          }}>
-            <TableContainer>
-              {renderTablaTurnoConLotes(datosNivelTurno.penultimaSemana, 'turno')}
-            </TableContainer>
-          </Box>
-        </Paper>
+                  {/* Lotes del Turno */}
+                  <Box sx={{ mb: 1 }}>
+                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 600, color: '#CD0A0A' }}>
+                      Lotes del Turno {turnoNombre}
+                    </Typography>
+                    <Box sx={{
+                      display: 'flex',
+                      gap: 1,
+                      flexWrap: 'wrap',
+                      justifyContent: 'center'
+                    }}>
+                      {lotes.map(lote => (
+                        <Chip
+                          key={lote.idLote}
+                          label={lote.Lote}
+                          onClick={async () => {
+                            setSelectedLote(lote);
+                            await cargarDatosNivelLote(lote.idLote);
+                            setModalTipo('lote');
+                          }}
+                          sx={{
+                            cursor: 'pointer',
+                            fontSize: '0.85rem',
+                            height: '36px',
+                            fontWeight: 500,
+                            bgcolor: lote.Color === 'rojo' ? '#FFCDD2' : '#C8E6C9',
+                            color: '#424242',
+                            border: 'none',
+                            '&:hover': {
+                              bgcolor: lote.Color === 'rojo' ? '#B71C1C' : '#45A049',
+                              color: 'white',
+                              transform: 'scale(1.05)',
+                              transition: 'all 0.3s ease'
+                            }
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
 
-        {/* Última Semana */}
-        <Paper elevation={3} sx={{ 
-          bgcolor: '#FFE5E5', 
-          overflow: 'hidden',
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: 0
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2, pb: 1 }}>
-            <LockIcon sx={{ color: '#CD0A0A' }} />
-            <Chip label={`Semana ${datosNivelTurno.ultimaSemana.semana}`} sx={{ bgcolor: '#CD0A0A', color: 'white', fontWeight: 600 }} />
-            <Typography variant="body2" sx={{ color: '#666', fontSize: '1rem', fontWeight: 'bold' }}>
-              Promedio de todos los lotes del turno
-            </Typography>
-          </Box>
-          <Box sx={{ 
-            flex: 1, 
-            overflowY: 'auto', 
-            overflowX: 'hidden', 
-            position: 'relative',
-            '&::-webkit-scrollbar': { width: '8px' },
-            '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
-            '&::-webkit-scrollbar-thumb': { background: '#CD0A0A', borderRadius: '4px' }
-          }}>
-            <TableContainer>
-              {renderTablaTurnoConLotes(datosNivelTurno.ultimaSemana, 'turno')}
-            </TableContainer>
-          </Box>
-        </Paper>
+                  {/* Penúltima Semana */}
+                  <Paper elevation={3} sx={{
+                    bgcolor: '#FFE5E5',
+                    overflow: 'hidden',
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: 0
+                  }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2, pb: 1 }}>
+                      <LockIcon sx={{ color: '#CD0A0A' }} />
+                      <Chip label={`Semana ${datosNivelTurno.penultimaSemana.semana}`} sx={{ bgcolor: '#CD0A0A', color: 'white', fontWeight: 600 }} />
+                      <Typography variant="body2" sx={{ color: '#666', fontSize: '1rem', fontWeight: 'bold' }}>
+                        Promedio de todos los lotes del turno
+                      </Typography>
+                    </Box>
+                    <Box sx={{
+                      flex: 1,
+                      overflowY: 'auto',
+                      overflowX: 'hidden',
+                      position: 'relative',
+                      '&::-webkit-scrollbar': { width: '8px' },
+                      '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
+                      '&::-webkit-scrollbar-thumb': { background: '#CD0A0A', borderRadius: '4px' }
+                    }}>
+                      <TableContainer>
+                        {renderTablaTurnoConLotes(datosNivelTurno.penultimaSemana, 'turno')}
+                      </TableContainer>
+                    </Box>
+                  </Paper>
+
+                  {/* Última Semana */}
+                  <Paper elevation={3} sx={{
+                    bgcolor: '#FFE5E5',
+                    overflow: 'hidden',
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: 0
+                  }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2, pb: 1 }}>
+                      <LockIcon sx={{ color: '#CD0A0A' }} />
+                      <Chip label={`Semana ${datosNivelTurno.ultimaSemana.semana}`} sx={{ bgcolor: '#CD0A0A', color: 'white', fontWeight: 600 }} />
+                      <Typography variant="body2" sx={{ color: '#666', fontSize: '1rem', fontWeight: 'bold' }}>
+                        Promedio de todos los lotes del turno
+                      </Typography>
+                    </Box>
+                    <Box sx={{
+                      flex: 1,
+                      overflowY: 'auto',
+                      overflowX: 'hidden',
+                      position: 'relative',
+                      '&::-webkit-scrollbar': { width: '8px' },
+                      '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
+                      '&::-webkit-scrollbar-thumb': { background: '#CD0A0A', borderRadius: '4px' }
+                    }}>
+                      <TableContainer>
+                        {renderTablaTurnoConLotes(datosNivelTurno.ultimaSemana, 'turno')}
+                      </TableContainer>
+                    </Box>
+                  </Paper>
 
                   {/* Botones de navegación */}
                   <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', pt: 3 }}>
@@ -2186,14 +2186,14 @@ function Fenologia() {
               }}>
                 <Box sx={{ p: 3, minWidth: 'max-content', display: 'flex', flexDirection: 'column', gap: 0 }}>
 
-                {/* Lotes del Turno */}
+                  {/* Lotes del Turno */}
                   <Box sx={{ mb: 1 }}>
                     <Typography variant="subtitle1" sx={{ mb: 0.5, fontWeight: 600, color: '#CD0A0A', fontSize: '0.9rem' }}>
                       Lotes del Turno {turnoNombre}
                     </Typography>
-                    <Box sx={{ 
-                      display: 'flex', 
-                      gap: 1.5, 
+                    <Box sx={{
+                      display: 'flex',
+                      gap: 1.5,
                       flexWrap: 'wrap'
                     }}>
                       {lotes.map(lote => (
@@ -2205,7 +2205,7 @@ function Fenologia() {
                             await cargarDatosNivelLote(lote.idLote);
                             setModalTipo('lote');
                           }}
-                          sx={{ 
+                          sx={{
                             cursor: 'pointer',
                             fontSize: '0.85rem',
                             height: '36px',
@@ -2275,10 +2275,10 @@ function Fenologia() {
                           startIcon={<EditIcon />}
                           onClick={() => setModoEdicionLote(true)}
                           disabled={!loteEsEditable}
-                          sx={{ 
-                            bgcolor: loteEsEditable ? '#FF9800' : '#BDBDBD', 
-                            '&:hover': { bgcolor: loteEsEditable ? '#F57C00' : '#BDBDBD' }, 
-                            minWidth: 200 
+                          sx={{
+                            bgcolor: loteEsEditable ? '#FF9800' : '#BDBDBD',
+                            '&:hover': { bgcolor: loteEsEditable ? '#F57C00' : '#BDBDBD' },
+                            minWidth: 200
                           }}
                         >
                           {loteEsEditable ? 'Editar Promedios' : '🔒 No Editable'}
