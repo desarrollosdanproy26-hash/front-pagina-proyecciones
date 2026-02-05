@@ -345,8 +345,7 @@ function Fenologia() {
       setDatosNivelLote(response.data);
 
       // Verificar si tiene Validacion=2
-      const esEditable = response.data.esEditable || false;
-      setLoteEsEditable(esEditable);
+      setLoteEsEditable(true); // ✅ SIEMPRE editable
 
     } catch (err) {
       console.error('Error al cargar datos nivel lote:', err);
@@ -2274,14 +2273,14 @@ function Fenologia() {
                           size="large"
                           startIcon={<EditIcon />}
                           onClick={() => setModoEdicionLote(true)}
-                          disabled={!loteEsEditable}
-                          sx={{
-                            bgcolor: loteEsEditable ? '#FF9800' : '#BDBDBD',
-                            '&:hover': { bgcolor: loteEsEditable ? '#F57C00' : '#BDBDBD' },
-                            minWidth: 200
-                          }}
+                          // ✅ SIN disabled
+                          sx={{ 
+                          bgcolor: '#FF9800', 
+                          '&:hover': { bgcolor: '#F57C00' }, 
+                          minWidth: 200 
+                        }}
                         >
-                          {loteEsEditable ? 'Editar Promedios' : '🔒 No Editable'}
+                          Editar Promedios
                         </Button>
 
                         {/* Ver Nivel Muestra */}
