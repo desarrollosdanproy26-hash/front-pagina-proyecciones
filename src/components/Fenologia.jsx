@@ -80,7 +80,7 @@ function Fenologia() {
     { key: 'CuajaDeforme', label: 'Cuaja Def.', width: 100 },
     { key: 'CuajasDañoAlternaria', label: 'C. Daño Alt.', width: 100 },
     { key: 'CuajaDañoProdi', label: 'C. Daño Prod.', width: 100 },
-    { key: 'FrutoNivel1', label: 'Fruto N1', width: 100 },
+    { key: 'FrutoNivel1', label: 'Frutos', width: 100 },
     { key: 'FrutosQuemados', label: 'F. Quemados', width: 100 },
     { key: 'FrutosDeformes', label: 'F. Deformes', width: 100 },
     { key: 'DeformeLeve', label: 'Def. Leve', width: 100 },
@@ -93,58 +93,143 @@ function Fenologia() {
     { key: 'DañoRoedores', label: 'Daño Roed.', width: 100 },
     { key: 'DañoPajaros', label: 'Daño Páj.', width: 100 }
   ];
+  // CAMPOS DE CONTEOS (NO EDITABLES, SOLO VISTA)
+  const camposConteos = [
+    { key: 'VI', label: 'VI', width: 80 },
+    { key: 'VT', label: 'VT', width: 80 },
+    { key: 'MARRON', label: 'MARRÓN', width: 90 },
+    { key: 'PINTON', label: 'PINTÓN', width: 90 },
+    { key: 'ROJO', label: 'ROJO', width: 80 },
+    { key: 'FRUTO_VIABLE', label: 'FRUTO VIABLE', width: 120 },
+    { key: 'FRUTO_COSECHABLE', label: 'FRUTO COSECH.', width: 120 },
+    { key: 'DESCARTE', label: 'DESCARTE', width: 100 },
+    { key: 'FRUTOS_TOTALES', label: 'FRUTOS TOT.', width: 110 }
+  ];
 
   const validarDatosEdicion = () => {
     const errores = [];
     const camposEditados = new Set(
       Object.keys(promediosEditadosPorLote).map(key => key.split('_')[1])
     );
-    
+
+
     camposEditados.forEach(campo => {
       const min = parseFloat(valoresMinTurno[campo] || 0);
       const max = parseFloat(valoresMaxTurno[campo] || 0);
-      
+
       if (!valoresMinTurno[campo] || !valoresMaxTurno[campo]) {
         errores.push(`❌ ${campo}: Debes definir MIN y MAX`);
         return;
       }
-      
+
       if (min >= max) {
         errores.push(`❌ ${campo}: MIN (${min}) debe ser menor que MAX (${max})`);
       }
-      
+
       Object.entries(promediosEditadosPorLote).forEach(([key, valor]) => {
         if (key.endsWith(`_${campo}`)) {
           const promLote = parseFloat(valor);
           const loteNombre = key.split('_')[0];
-          
+
           if (min > promLote) {
             errores.push(`❌ ${campo} (Lote ${loteNombre}): MIN (${min}) no puede ser mayor que promedio (${promLote})`);
           }
-          
+
           if (max < promLote) {
             errores.push(`❌ ${campo} (Lote ${loteNombre}): MAX (${max}) no puede ser menor que promedio (${promLote})`);
           }
         }
       });
-      
+
       const limites = {
         'AlturaPlanta': 200,
-        'Botones': 50,
+        'Botones': 200,
         'Flores': 100,
         'Cuajas': 100
       };
-      
+
       if (limites[campo] && max > limites[campo]) {
         errores.push(`⚠️ ${campo}: MAX (${max}) excede límite físico de ${limites[campo]}`);
       }
-      
+
       if (campo === 'AlturaPlanta' && (max - min) > 50) {
         errores.push(`⚠️ AlturaPlanta: Rango de ${(max - min).toFixed(1)} cm es muy amplio`);
       }
     });
-    
+
     return errores;
+  };
+
+  const calcularCamposConteos = (datos) => {
+    const n_frutos = parseFloat(datos.FrutoNivel1) || 0;
+    const vi = parseFloat(datos.VI) || 0;
+    const vt = parseFloat(datos.VT) || 0;
+    const m30 = parseFloat(datos.M30) || 0;
+    const m50 = parseFloat(datos.M50) || 0;
+    const m75 = parseFloat(datos.M75) || 0;
+    const p30 = parseFloat(datos.P30) || 0;
+    const p50 = parseFloat(datos.P50) || 0;
+    const p75 = parseFloat(datos.P75) || 0;
+    const vmp30 = parseFloat(datos.VMP30) || 0;
+    const vmp50 = parseFloat(datos.VMP50) || 0;
+    const vmp75 = parseFloat(datos.VMP75) || 0;
+    const pn = parseFloat(datos.PN) || 0;
+    const np = parseFloat(datos.NP) || 0;
+    const n = parseFloat(datos.N) || 0;
+    const rm = parseFloat(datos.RM) || 0;
+    const r = parseFloat(datos.R) || 0;
+
+    // FRUTO VIABLE
+    const frutoViable = n_frutos !== 0 ? n_frutos :
+      vi + vt + m30 + m50 + m75 + p30 + p50 + p75 + vmp30 + vmp50 + vmp75 + pn + np + n + rm + r;
+
+    // MARRÓN, PINTÓN, ROJO
+    const marron = m30 + m50 + m75 + rm;
+    const pinton = p30 + p50 + p75 + pn;
+    const rojo = r + n;
+
+    // FRUTO COSECHABLE
+    const craking = parseFloat(datos.Craking) || 0;
+    const rajL = parseFloat(datos.RajL) || 0;
+    const deforL = parseFloat(datos.DeformeLeve) || 0;
+    const tipoAji = parseFloat(datos.TipoAji) || 0;
+    const deshL = parseFloat(datos.DeshL) || 0;
+    const rajMod = parseFloat(datos.RajMod) || 0;
+
+    const frutoCosechable = frutoViable + craking + rajL + deforL + tipoAji + deshL + rajMod;
+
+    // DESCARTE
+    const deforS = parseFloat(datos.FrutosDeformes) || 0;
+    const alternaria = parseFloat(datos.DañoAlternaria) || 0;
+    const descomp = parseFloat(datos.FrutosDescompuestos) || 0;
+    const pajaro = parseFloat(datos.DañoPajaros) || 0;
+    const roedores = parseFloat(datos.DañoRoedores) || 0;
+    const rajS = parseFloat(datos.RajS) || 0;
+    const deshS = parseFloat(datos.DeshS) || 0;
+    const formaAji = parseFloat(datos.FormaAji) || 0;
+    const diaMenor = parseFloat(datos.DiametroMenor) || 0;
+    const quemado = parseFloat(datos.FrutosQuemados) || 0;
+    const virus = parseFloat(datos.Virus) || 0;
+    const trips = parseFloat(datos.Trips) || 0;
+    const pudBasal = parseFloat(datos.PudBasal) || 0;
+    const defCalcio = parseFloat(datos.DeficienciaCalcio) || 0;
+
+    const descarte = deforS + alternaria + descomp + pajaro + roedores + rajMod + rajS + deshS + formaAji + diaMenor + quemado + virus + trips + pudBasal + virus + defCalcio;
+
+    // FRUTOS TOTALES
+    const frutosTotales = frutoCosechable + descarte;
+
+    return {
+      VI: vi.toFixed(2),
+      VT: vt.toFixed(2),
+      MARRON: marron.toFixed(2),
+      PINTON: pinton.toFixed(2),
+      ROJO: rojo.toFixed(2),
+      FRUTO_VIABLE: frutoViable.toFixed(2),
+      FRUTO_COSECHABLE: frutoCosechable.toFixed(2),
+      DESCARTE: descarte.toFixed(2),
+      FRUTOS_TOTALES: frutosTotales.toFixed(2)
+    };
   };
 
   useEffect(() => {
@@ -174,17 +259,17 @@ function Fenologia() {
   };
 
   const cargarModulos = async (idFundo, mantenerSeleccion = false) => {
-  try {
-    setLoading(true);
-    const response = await axios.get(`${API_URL}/fenologia/fundos/${idFundo}/modulos`, getAuthHeaders());
-    setModulos(response.data.data);
-    
-    if (!mantenerSeleccion) {
-      setTurnos([]);
-      setSelectedModulo('');
-      setSelectedTurno('');
-      setDatosTurno(null);
-    }
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/fenologia/fundos/${idFundo}/modulos`, getAuthHeaders());
+      setModulos(response.data.data);
+
+      if (!mantenerSeleccion) {
+        setTurnos([]);
+        setSelectedModulo('');
+        setSelectedTurno('');
+        setDatosTurno(null);
+      }
     } catch (err) {
       setError('Error al cargar módulos: ' + err.message);
     } finally {
@@ -193,15 +278,15 @@ function Fenologia() {
   };
 
   const cargarTurnos = async (idModulo, mantenerSeleccion = false) => {
-  try {
-    setLoading(true);
-    const response = await axios.get(`${API_URL}/fenologia/modulos/${idModulo}/turnos`, getAuthHeaders());
-    setTurnos(response.data.data);
-    
-    if (!mantenerSeleccion) {
-      setSelectedTurno('');
-      setDatosTurno(null);
-    }
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/fenologia/modulos/${idModulo}/turnos`, getAuthHeaders());
+      setTurnos(response.data.data);
+
+      if (!mantenerSeleccion) {
+        setSelectedTurno('');
+        setDatosTurno(null);
+      }
     } catch (err) {
       setError('Error al cargar turnos: ' + err.message);
     } finally {
@@ -301,7 +386,7 @@ function Fenologia() {
 
     try {
       setLoading(true);
-      
+
       // Agrupar promedios por lote: { idLote: { campo: valor } }
       const promedioPorLote = {};
       Object.entries(promediosEditadosPorLote).forEach(([key, valor]) => {
@@ -311,7 +396,7 @@ function Fenologia() {
         }
         promedioPorLote[idLote][campo] = parseFloat(valor);
       });
-      
+
       // Llamar al endpoint de TURNO (una sola vez)
       await axios.put(
         `${API_URL}/fenologia/turnos/${selectedTurno}/editar-promedios`,
@@ -322,15 +407,15 @@ function Fenologia() {
         },
         getAuthHeaders()
       );
-      
+
       alert('✅ Cambios guardados exitosamente');
 
-// Recargar datos SIN perder selecciones
-await cargarDatosTurno(selectedTurno);
-await cargarModulos(selectedFundo, true);
-await cargarTurnos(selectedModulo, true);
+      // Recargar datos SIN perder selecciones
+      await cargarDatosTurno(selectedTurno);
+      await cargarModulos(selectedFundo, true);
+      await cargarTurnos(selectedModulo, true);
 
-setModoEdicionTurno(false);
+      setModoEdicionTurno(false);
       setPromediosEditadosPorLote({});
       setValoresMinTurno({});
       setValoresMaxTurno({});
@@ -358,9 +443,9 @@ setModoEdicionTurno(false);
       );
 
       alert('✅ Turno marcado como revisado');
-await cargarDatosTurno(selectedTurno);
-await cargarModulos(selectedFundo, true);
-await cargarTurnos(selectedModulo, true);
+      await cargarDatosTurno(selectedTurno);
+      await cargarModulos(selectedFundo, true);
+      await cargarTurnos(selectedModulo, true);
     } catch (err) {
       alert('❌ Error: ' + err.message);
     } finally {
@@ -479,6 +564,12 @@ await cargarTurnos(selectedModulo, true);
                       {campo.label}
                     </TableCell>
                   ))}
+                  {/* COLUMNAS DE CONTEOS */}
+                  {camposConteos.map(campo => (
+                    <TableCell key={campo.key} sx={{ bgcolor: '#2196F3', color: 'white', fontWeight: 700, minWidth: campo.width, textAlign: 'center' }}>
+                      {campo.label}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -487,8 +578,8 @@ await cargarTurnos(selectedModulo, true);
                     {semana.lotes.map((lote, loteIdx) => (
                       <TableRow key={`${semana.semana}-${lote.idLote}`} sx={{ bgcolor: loteIdx % 2 === 0 ? 'white' : 'rgba(0,0,0,0.02)' }}>
                         {loteIdx === 0 && (
-                          <TableCell rowSpan={semana.lotes.length + 1} sx={{ 
-                            fontWeight: 700, 
+                          <TableCell rowSpan={semana.lotes.length + 1} sx={{
+                            fontWeight: 700,
                             fontSize: '1rem',
                             bgcolor: '#E8F5E9',
                             position: 'sticky',
@@ -528,6 +619,15 @@ await cargarTurnos(selectedModulo, true);
                             </TableCell>
                           );
                         })}
+                        {/* COLUMNAS DE CONTEOS (NO EDITABLES) */}
+                        {(() => {
+                          const calculados = calcularCamposConteos(lote.promedios);
+                          return camposConteos.map(campo => (
+                            <TableCell key={campo.key} sx={{ textAlign: 'center', bgcolor: '#E3F2FD', fontWeight: 600, color: '#1565C0' }}>
+                              {calculados[campo.key] || '0.00'}
+                            </TableCell>
+                          ));
+                        })()}
                       </TableRow>
                     ))}
 
@@ -539,27 +639,35 @@ await cargarTurnos(selectedModulo, true);
                       {camposEditables.map(campo => {
                         const esUltima = semanaIdx === datosTurno.semanas.length - 1;
                         let promedioCalculado = semana.promedioGeneral[campo.key];
-                        
+
                         if (esUltima && modoEdicionTurno) {
                           const valoresLotes = semana.lotes.map(lote => {
                             const key = `${lote.idLote}_${campo.key}`;
                             return parseFloat(promediosEditadosPorLote[key] ?? lote.promedios[campo.key]) || 0;
                           });
-                          
+
                           if (valoresLotes.length > 0) {
                             const suma = valoresLotes.reduce((a, b) => a + b, 0);
                             promedioCalculado = (suma / valoresLotes.length).toFixed(2);
                           }
                         }
-                        
+
                         return (
                           <TableCell key={campo.key} sx={{ fontWeight: 700, color: 'white', textAlign: 'center' }}>
                             {promedioCalculado}
                           </TableCell>
                         );
                       })}
+                      {/* COLUMNAS DE CONTEOS EN MISMA FILA PROMEDIO */}
+                      {(() => {
+                        const calculados = calcularCamposConteos(semana.promedioGeneral);
+                        return camposConteos.map(campo => (
+                          <TableCell key={campo.key} sx={{ fontWeight: 700, bgcolor: '#2196F3', color: 'white', textAlign: 'center' }}>
+                            {calculados[campo.key] || '0.00'}
+                          </TableCell>
+                        ));
+                      })()}
                     </TableRow>
-
                     {semanaIdx === datosTurno.semanas.length - 1 && semana.editable && modoEdicionTurno && (
                       <>
                         <TableRow sx={{ bgcolor: '#FFEBEE' }}>
@@ -582,7 +690,7 @@ await cargarTurnos(selectedModulo, true);
                             </TableCell>
                           ))}
                         </TableRow>
-
+                        {/* FILA PROMEDIO CONTEOS */}
                         <TableRow sx={{ bgcolor: '#E8F5E9' }}>
                           <TableCell sx={{ fontWeight: 700, position: 'sticky', left: 80, bgcolor: '#E8F5E9', zIndex: 1 }}>
                             MÁXIMO
