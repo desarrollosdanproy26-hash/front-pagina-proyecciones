@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // Cambia esta línea:
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+//const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = "http://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me/api";
 
 const apiClient = axios.create({
   baseURL: API_URL,
