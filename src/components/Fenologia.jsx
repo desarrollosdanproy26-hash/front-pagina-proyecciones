@@ -31,7 +31,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+//const API_URL = 'http://localhost:5000/api';
+const API_URL = "http://portal-web-proyecciones-apipagina-ecn8tf-ddab49-147-93-190-116.traefik.me/api";
+
 
 function Fenologia() {
   const [fundos, setFundos] = useState([]);
