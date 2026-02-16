@@ -559,6 +559,8 @@ function Fenologia() {
                   <TableCell sx={{ bgcolor: '#4CAF50', color: 'white', fontWeight: 700, width: 80, position: 'sticky', left: 0, zIndex: 3 }}>Semana</TableCell>
                   <TableCell sx={{ bgcolor: '#4CAF50', color: 'white', fontWeight: 700, width: 100, position: 'sticky', left: 80, zIndex: 3 }}>Lote</TableCell>
                   <TableCell sx={{ bgcolor: '#4CAF50', color: 'white', fontWeight: 700, width: 110 }}>Fecha</TableCell>
+                  <TableCell sx={{ bgcolor: '#FF9800', color: 'white', fontWeight: 700, width: 100, textAlign: 'center' }}>Edad Cultivo</TableCell>
+                  <TableCell sx={{ bgcolor: '#FF9800', color: 'white', fontWeight: 700, width: 100, textAlign: 'center' }}>Umbral Alt.</TableCell>
                   {camposEditables.map(campo => (
                     <TableCell key={campo.key} sx={{ bgcolor: '#4CAF50', color: 'white', fontWeight: 700, minWidth: 120, textAlign: 'center' }}>
                       {campo.label}
@@ -594,6 +596,8 @@ function Fenologia() {
                           {lote.Lote}
                         </TableCell>
                         <TableCell>{lote.fecha ? new Date(lote.fecha + 'T00:00:00').toLocaleDateString('es-PE') : '-'}</TableCell>
+                        <TableCell sx={{ textAlign: 'center', fontWeight: 600, color: '#F57C00' }}>{lote.EdadCultivo || '-'}</TableCell>
+                        <TableCell sx={{ textAlign: 'center', fontWeight: 600, color: '#F57C00' }}>{lote.UmbralAltura ? parseFloat(lote.UmbralAltura).toFixed(2) : '-'}</TableCell>
                         {camposEditables.map(campo => {
                           const esUltima = semanaIdx === datosTurno.semanas.length - 1;
                           const key = `${lote.idLote}_${campo.key}`;
@@ -636,6 +640,8 @@ function Fenologia() {
                         PROMEDIO
                       </TableCell>
                       <TableCell sx={{ color: 'white' }}>-</TableCell>
+                      <TableCell sx={{ color: 'white', textAlign: 'center' }}>-</TableCell>
+                      <TableCell sx={{ color: 'white', textAlign: 'center' }}>-</TableCell>
                       {camposEditables.map(campo => {
                         const esUltima = semanaIdx === datosTurno.semanas.length - 1;
                         let promedioCalculado = semana.promedioGeneral[campo.key];
@@ -675,7 +681,8 @@ function Fenologia() {
                             MÍNIMO
                           </TableCell>
                           <TableCell>-</TableCell>
-                          <TableCell>-</TableCell>
+                          <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
+                          <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           {camposEditables.map(campo => (
                             <TableCell key={campo.key} sx={{ textAlign: 'center', p: 1 }}>
                               <TextField
@@ -696,7 +703,8 @@ function Fenologia() {
                             MÁXIMO
                           </TableCell>
                           <TableCell>-</TableCell>
-                          <TableCell>-</TableCell>
+                          <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
+                          <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           {camposEditables.map(campo => (
                             <TableCell key={campo.key} sx={{ textAlign: 'center', p: 1 }}>
                               <TextField
