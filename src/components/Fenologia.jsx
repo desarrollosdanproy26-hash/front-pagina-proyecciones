@@ -681,6 +681,7 @@ function Fenologia() {
                             MÍNIMO
                           </TableCell>
                           <TableCell>-</TableCell>
+                          <TableCell>-</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           {camposEditables.map(campo => (
@@ -702,6 +703,7 @@ function Fenologia() {
                           <TableCell sx={{ fontWeight: 700, position: 'sticky', left: 80, bgcolor: '#E8F5E9', zIndex: 1 }}>
                             MÁXIMO
                           </TableCell>
+                          <TableCell>-</TableCell>
                           <TableCell>-</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
