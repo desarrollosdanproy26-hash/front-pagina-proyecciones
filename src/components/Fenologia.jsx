@@ -683,6 +683,7 @@ function Fenologia() {
                           <TableCell>-</TableCell>
                           <TableCell>-</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
+                          <TableCell sx={{ textAlign: 'center' }}>-</TableCell>
                           {camposEditables.map(campo => (
                             <TableCell key={campo.key} sx={{ textAlign: 'center', p: 1 }}>
                               <TextField
