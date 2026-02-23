@@ -160,78 +160,72 @@ function Fenologia() {
     return errores;
   };
 
-  const calcularCamposConteos = (datos) => {
-    const n_frutos = parseFloat(datos.FrutoNivel1) || 0;
-    const vi = parseFloat(datos.VI) || 0;
-    const vt = parseFloat(datos.VT) || 0;
-    const m30 = parseFloat(datos.M30) || 0;
-    const m50 = parseFloat(datos.M50) || 0;
-    const m75 = parseFloat(datos.M75) || 0;
-    const p30 = parseFloat(datos.P30) || 0;
-    const p50 = parseFloat(datos.P50) || 0;
-    const p75 = parseFloat(datos.P75) || 0;
-    const vmp30 = parseFloat(datos.VMP30) || 0;
-    const vmp50 = parseFloat(datos.VMP50) || 0;
-    const vmp75 = parseFloat(datos.VMP75) || 0;
-    const pn = parseFloat(datos.PN) || 0;
-    const np = parseFloat(datos.NP) || 0;
-    const n = parseFloat(datos.N) || 0;
-    const rm = parseFloat(datos.RM) || 0;
-    const r = parseFloat(datos.R) || 0;
+const calcularCamposConteos = (datos) => {
+  const vi = parseFloat(datos.VI) || 0;
+  const vt = parseFloat(datos.VT) || 0;
+  const m30 = parseFloat(datos.M30) || 0;
+  const m50 = parseFloat(datos.M50) || 0;
+  const m75 = parseFloat(datos.M75) || 0;
+  const p30 = parseFloat(datos.P30) || 0;
+  const p50 = parseFloat(datos.P50) || 0;
+  const p75 = parseFloat(datos.P75) || 0;
+  const vmp30 = parseFloat(datos.VMP30) || 0;
+  const vmp50 = parseFloat(datos.VMP50) || 0;
+  const vmp75 = parseFloat(datos.VMP75) || 0;
+  const pn = parseFloat(datos.PN) || 0;
+  const np = parseFloat(datos.NP) || 0;
+  const n = parseFloat(datos.N) || 0;
+  const rm = parseFloat(datos.RM) || 0;
+  const r = parseFloat(datos.R) || 0;
+  const craking = parseFloat(datos.Craking) || 0;
+  const rajL = parseFloat(datos.RajL) || 0;
+  const rajMod = parseFloat(datos.RajMod) || 0;
+  const rajS = parseFloat(datos.RajS) || 0;
+  const deshL = parseFloat(datos.DeshL) || 0;
+  const deshS = parseFloat(datos.DeshS) || 0;
+  const virus = parseFloat(datos.Virus) || 0;
+  const trips = parseFloat(datos.Trips) || 0;
+  const pudBasal = parseFloat(datos.PudBasal) || 0;
+  const defCalcio = parseFloat(datos.DeficienciaCalcio) || 0;
+  const n_frutos = parseFloat(datos.FrutoNivel1) || 0;
+  const deformeLeve = parseFloat(datos.DeformeLeve) || 0;
+  const tipoAji = parseFloat(datos.TipoAji) || 0;
+  const formaAji = parseFloat(datos.FormaAji) || 0;
+  const deformes = parseFloat(datos.FrutosDeformes) || 0;
+  const alternaria = parseFloat(datos.DañoAlternaria) || 0;
+  const prodiplosis = parseFloat(datos.DañoProdiplosis) || 0;
+  const descomp = parseFloat(datos.FrutosDescompuestos) || 0;
+  const pajaro = parseFloat(datos.DañoPajaros) || 0;
+  const roedores = parseFloat(datos.DañoRoedores) || 0;
+  const quemado = parseFloat(datos.FrutosQuemados) || 0;
+  const diaMenor = parseFloat(datos.DiametroMenor) || 0;
 
-    // FRUTO VIABLE
-    const frutoViable = n_frutos !== 0 ? n_frutos :
-      vi + vt + m30 + m50 + m75 + p30 + p50 + p75 + vmp30 + vmp50 + vmp75 + pn + np + n + rm + r;
+  const marron = m30 + m50 + m75;
+  const pinton = p30 + p50 + p75 + vmp30 + vmp50 + vmp75;
+  const rojo = pn + np + n + rm + r;
 
-    // MARRÓN, PINTÓN, ROJO
-    const marron = m30 + m50 + m75 + rm;
-    const pinton = p30 + p50 + p75 + pn;
-    const rojo = r + n;
+  const frutoViable = n_frutos > 0 ? n_frutos :
+    vi + vt + m30 + m50 + m75 + p30 + p50 + p75 + vmp30 + vmp50 + vmp75 + pn + np + n + rm + r;
 
-    // FRUTO COSECHABLE
-    const craking = parseFloat(datos.Craking) || 0;
-    const rajL = parseFloat(datos.RajL) || 0;
-    const deforL = parseFloat(datos.DeformeLeve) || 0;
-    const tipoAji = parseFloat(datos.TipoAji) || 0;
-    const deshL = parseFloat(datos.DeshL) || 0;
-    const rajMod = parseFloat(datos.RajMod) || 0;
+  const frutoCosechable = frutoViable + rajL + rajMod + craking + deshL + deformeLeve + tipoAji;
 
-    const frutoCosechable = frutoViable + craking + rajL + deforL + tipoAji + deshL + rajMod;
+  const descarte = quemado + prodiplosis + alternaria + descomp + pajaro + roedores +
+    formaAji + diaMenor + deformes + rajS + deshS + virus + trips + pudBasal + defCalcio;
 
-    // DESCARTE
-    const deforS = parseFloat(datos.FrutosDeformes) || 0;
-    const alternaria = parseFloat(datos.DañoAlternaria) || 0;
-    const descomp = parseFloat(datos.FrutosDescompuestos) || 0;
-    const pajaro = parseFloat(datos.DañoPajaros) || 0;
-    const roedores = parseFloat(datos.DañoRoedores) || 0;
-    const rajS = parseFloat(datos.RajS) || 0;
-    const deshS = parseFloat(datos.DeshS) || 0;
-    const formaAji = parseFloat(datos.FormaAji) || 0;
-    const diaMenor = parseFloat(datos.DiametroMenor) || 0;
-    const quemado = parseFloat(datos.FrutosQuemados) || 0;
-    const virus = parseFloat(datos.Virus) || 0;
-    const trips = parseFloat(datos.Trips) || 0;
-    const pudBasal = parseFloat(datos.PudBasal) || 0;
-    const defCalcio = parseFloat(datos.DeficienciaCalcio) || 0;
+  const frutosTotales = frutoCosechable + descarte;
 
-    const descarte = deforS + alternaria + descomp + pajaro + roedores + rajMod + rajS + deshS + formaAji + diaMenor + quemado + virus + trips + pudBasal + virus + defCalcio;
-
-    // FRUTOS TOTALES
-    const frutosTotales = frutoCosechable + descarte;
-
-    return {
-      VI: vi.toFixed(2),
-      VT: vt.toFixed(2),
-      MARRON: marron.toFixed(2),
-      PINTON: pinton.toFixed(2),
-      ROJO: rojo.toFixed(2),
-      FRUTO_VIABLE: frutoViable.toFixed(2),
-      FRUTO_COSECHABLE: frutoCosechable.toFixed(2),
-      DESCARTE: descarte.toFixed(2),
-      FRUTOS_TOTALES: frutosTotales.toFixed(2)
-    };
+  return {
+    VI: vi.toFixed(2),
+    VT: vt.toFixed(2),
+    MARRON: marron.toFixed(2),
+    PINTON: pinton.toFixed(2),
+    ROJO: rojo.toFixed(2),
+    FRUTO_VIABLE: frutoViable.toFixed(2),
+    FRUTO_COSECHABLE: frutoCosechable.toFixed(2),
+    DESCARTE: descarte.toFixed(2),
+    FRUTOS_TOTALES: frutosTotales.toFixed(2)
   };
-
+};
   useEffect(() => {
     cargarFundos();
   }, []);
