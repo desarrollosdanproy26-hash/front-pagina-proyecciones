@@ -161,6 +161,7 @@ function Fenologia() {
   };
 
 const calcularCamposConteos = (datos) => {
+  // CONTEOS
   const vi = parseFloat(datos.VI) || 0;
   const vt = parseFloat(datos.VT) || 0;
   const m30 = parseFloat(datos.M30) || 0;
@@ -183,34 +184,43 @@ const calcularCamposConteos = (datos) => {
   const rajS = parseFloat(datos.RajS) || 0;
   const deshL = parseFloat(datos.DeshL) || 0;
   const deshS = parseFloat(datos.DeshS) || 0;
-  const virus = parseFloat(datos.Virus) || 0;
-  const trips = parseFloat(datos.Trips) || 0;
   const pudBasal = parseFloat(datos.PudBasal) || 0;
   const defCalcio = parseFloat(datos.DeficienciaCalcio) || 0;
-  const n_frutos = parseFloat(datos.FrutoNivel1) || 0;
-  const deformeLeve = parseFloat(datos.DeformeLeve) || 0;
-  const tipoAji = parseFloat(datos.TipoAji) || 0;
-  const formaAji = parseFloat(datos.FormaAji) || 0;
-  const deformes = parseFloat(datos.FrutosDeformes) || 0;
-  const alternaria = parseFloat(datos.DañoAlternaria) || 0;
-  const prodiplosis = parseFloat(datos.DañoProdiplosis) || 0;
-  const descomp = parseFloat(datos.FrutosDescompuestos) || 0;
-  const pajaro = parseFloat(datos.DañoPajaros) || 0;
-  const roedores = parseFloat(datos.DañoRoedores) || 0;
-  const quemado = parseFloat(datos.FrutosQuemados) || 0;
-  const diaMenor = parseFloat(datos.DiametroMenor) || 0;
+  const virus = parseFloat(datos.Virus) || 0;
+  const trips = parseFloat(datos.Trips) || 0;
 
+  // FENOLOGÍA + CONTEOS (suma ambas fuentes)
+  const n_frutos = parseFloat(datos.FrutoNivel1) || 0;
+  const tipoAji   = (parseFloat(datos.TipoAji) || 0)   + (parseFloat(datos.TipoAji_c) || 0);
+  const formaAji  = (parseFloat(datos.FormaAji) || 0)  + (parseFloat(datos.FormaAji_c) || 0);
+  const deforL    = (parseFloat(datos.DeformeLeve) || 0)       + (parseFloat(datos.DeforL) || 0);
+  const deforS    = (parseFloat(datos.FrutosDeformes) || 0)    + (parseFloat(datos.DeforS) || 0);
+  const alternaria  = (parseFloat(datos.DañoAlternaria) || 0)  + (parseFloat(datos.Alternaria) || 0);
+  const prodiplosis = (parseFloat(datos.DañoProdiplosis) || 0) + (parseFloat(datos.Prodiplosis) || 0);
+  const descomp   = (parseFloat(datos.FrutosDescompuestos) || 0) + (parseFloat(datos.Descomp) || 0);
+  const pajaro    = (parseFloat(datos.DañoPajaros) || 0)   + (parseFloat(datos.Pajaro) || 0);
+  const roedores  = (parseFloat(datos.DañoRoedores) || 0)  + (parseFloat(datos.Roedores) || 0);
+  const diaMenor  = (parseFloat(datos.DiametroMenor) || 0) + (parseFloat(datos.DiaMenor) || 0);
+  const quemado   = (parseFloat(datos.FrutosQuemados) || 0) + (parseFloat(datos.Quemado) || 0);
+
+  // CÁLCULOS
   const marron = m30 + m50 + m75;
   const pinton = p30 + p50 + p75 + vmp30 + vmp50 + vmp75;
-  const rojo = pn + np + n + rm + r;
+  const rojo   = pn + np + n + rm + r;
 
   const frutoViable = n_frutos > 0 ? n_frutos :
-    vi + vt + m30 + m50 + m75 + p30 + p50 + p75 + vmp30 + vmp50 + vmp75 + pn + np + n + rm + r;
+    vi + vt + m30 + m50 + m75 + p30 + p50 + p75 +
+    vmp30 + vmp50 + vmp75 + n + np + pn + rm + r;
 
-  const frutoCosechable = frutoViable + rajL + rajMod + craking + deshL + deformeLeve + tipoAji;
+  const frutoCosechable =
+    vi + vt + m30 + m50 + m75 + p30 + p50 + p75 +
+    vmp30 + vmp50 + vmp75 + n + np + pn + r + rm +
+    rajL + rajMod + craking + deshL + deforL + tipoAji + defCalcio;
 
-  const descarte = quemado + prodiplosis + alternaria + descomp + pajaro + roedores +
-    formaAji + diaMenor + deformes + rajS + deshS + virus + trips + pudBasal + defCalcio;
+  const descarte =
+    quemado + prodiplosis + alternaria + descomp +
+    pajaro + roedores + formaAji + diaMenor +
+    deforS + rajS + deshS + virus + trips + pudBasal;
 
   const frutosTotales = frutoCosechable + descarte;
 
